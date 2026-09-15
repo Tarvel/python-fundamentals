@@ -11,9 +11,9 @@ class Pet:
         self.food = kibble_bowl
     
     def feed(self, food):
-        self.hunger += self.food.hunger_reduction
-        self.energy += self.food.energy_boost
-        self.happiness += self.food.happiness_boost
+        self.hunger -= food.hunger_reduction
+        self.energy += food.energy_boost
+        self.happiness += food.happiness_boost
         self.waste_count += 2
 
         self.hunger = max(0, min(100, self.hunger))
@@ -35,12 +35,11 @@ class Dragon(Pet):
         super().__init__(name=name, waste_count=waste_count, breed=breed, hunger=hunger, energy=energy, happiness=happiness)
 
     def feed(self, food):
+        if food.category == "Fruit":
+            print(f"{self.name} is a dragon and refuses to eat fruit!")
+            return
+
         super().feed(food=food)
-        self.refuse_fruit = (self.food.category == "Fruit")
-        if self.refuse_fruit:
-            self.hunger = self.hunger
-            self.energy =self.energy
-            self.happiness = self.happiness
 
     
     def breathe_fire(self):
@@ -50,3 +49,6 @@ class Dragon(Pet):
 
         self.hunger = max(0, min(100, self.hunger))
         self.energy = max(0, min(100, self.energy))
+
+        print(f"{self.name} breathes fire! You can now see the scorched ground. The dragon's energy has decreased and hunger has increased.")
+        print(f"[+] Hunger: {self.hunger}\n[+] Energy: {self.energy}\n[+] Happiness: {self.happiness}")

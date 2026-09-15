@@ -4,4 +4,4 @@ from food import *
 
 lucy = Dragon(name="Lucy")
 
-print(lucy.feed(prime_steak))
+print(lucy.feed(golden_apple))
