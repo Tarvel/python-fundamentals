@@ -35,3 +35,9 @@ def add_numbers_2(a: int, b: int) -> int:
     return a + b
 
 add_numbers_2(5, 10)  # Output: Adding 5 and 10, Result: 15
+
+# or
+
+
+def new_func(a: int, b: int, operation: Callable[[int, int], int]):
+    return operation(a, b)

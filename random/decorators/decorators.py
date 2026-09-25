@@ -35,7 +35,7 @@ def say_a_word():
 say_a_word()
 
 
-from typing import Callable
+from typing import Callable, Any
 
 def decorator(func: Callable[[int, int], int]) -> Callable[[int, int], int]:
     """A decorator that takes a function with two integer parameters and returns an integer."""
@@ -54,3 +54,32 @@ def add_numbers_2(a: int, b: int) -> int:
 
 
 add_numbers_2(5, 10)  # Output: Adding 5 and 10, Result: 15
+
+
+#### for example in fastapi,the routes decorator works like this:
+
+
+routes: dict[str, Callable[..., Any]] = {} # You cannot write Callable[[int, ...], Any]. If you need to strictly enforce that a function accepts a variable number of integers, you must use a Protocol to define a custom signature 
+
+
+def route(path: str):
+    def add_route(func):
+        routes[path] = func
+        return func
+    return add_route
+
+
+@route("/shipment")
+def get_shipment():
+    return "Shipment<00-12-445-543>"
+
+
+request: str = ""
+while request != "quit":
+    request = input(">  ")
+    if request in routes:
+        response = routes[request]()
+        print(response)
+    else:
+        print("Not found")
+    request = "quit"
